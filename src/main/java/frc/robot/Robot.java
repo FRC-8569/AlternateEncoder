@@ -12,26 +12,32 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
-  private Joystick m_stick;
-  private CANSparkMax m_motor1;
-  private RelativeEncoder m_encoder1;
+  private Joystick joystick;
+  private CANSparkMax motor1;
+  private RelativeEncoder encoder1;
 
   @Override
   public void robotInit() {
-    m_motor1 = new CANSparkMax(1, MotorType.kBrushless);
-    m_motor1.restoreFactoryDefaults();
-    m_encoder1 = m_motor1.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 8192);
-    m_encoder1.setPosition(0);
+    motor1 = new CANSparkMax(1, MotorType.kBrushless);
+    motor1.restoreFactoryDefaults();
+    encoder1 = motor1.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 8192);
+    encoder1.setPosition(0);
 
-    m_stick = new Joystick(0);
+    joystick = new Joystick(0);
   }
 
   @Override
   public void teleopPeriodic() {
-    double motorPos1 = m_encoder1.getPosition();
-    double motorSpd1 = m_encoder1.getVelocity();
+    double motorPos1 = encoder1.getPosition();
+    double motorSpd1 = encoder1.getVelocity();
 
-    m_motor1.set(m_stick.getRawAxis(0) * 0.3);
+    if (joystick.getRawButton(0)) {
+      motor1.set(0.3);
+    } else if (joystick.getRawButton(1)) {
+      motor1.set(-0.3);
+    } else {
+      motor1.set(0);
+    }
 
     System.out.println("motorPos1: " + motorPos1 + ", motorSpd1: " + motorSpd1);
 
