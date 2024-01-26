@@ -33,6 +33,8 @@ public class Robot extends TimedRobot {
 
     m_motor1.set(m_stick.getRawAxis(0) * 0.3);
 
+    System.out.println("motorPos1: " + motorPos1 + ", motorSpd1: " + motorSpd1);
+
     SmartDashboard.putNumber("motorPos1", motorPos1);
     SmartDashboard.putNumber("motorSpd1", motorSpd1);
   }
